@@ -15,3 +15,7 @@ select API-KEY in postman with
     - value: <screte-key-with-user-account>
 Terminal 
 curl -i -X GET http://localhost:8000/student/getall --header "Host: localhost" --header "apikey: abc123"
+
+
+References 
+https://blog.pythian.com/kong-an-intro-to-api-gateways/
