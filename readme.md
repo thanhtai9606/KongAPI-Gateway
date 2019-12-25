@@ -4,6 +4,8 @@
 Set Plugin key-auth
 Chả biết tại sao set trực tiếp từ KongA bị lỗi ko xác thực được
 sử dụng lệnh thì được
+- Đã tìm được nguyên nhân
+nhập thêm keynames khi chọn key-auth là apikey =>enter để lưu lại không thì nó sẽ set mặc định là No API Key Found
 1. curl -i -X POST --url https://localhost:8001/plugins --data 'name=key-auth'  --> Auhtorization for all routes inside
  (curl -i -X POST --url https://localhost:8001/apis/pythian-blog/plugins --data 'name=key-auth') => authorization for specific route
 2. Create account (Can also create from KongA or terminal ) after select username => create API Key
