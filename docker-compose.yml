@@ -1,10 +1,11 @@
-version: '3.7'
+version: '2.1'
 
 volumes:
   kong_data: {}
 
 networks:
-  kong-net:
+  web-net:
+    external: true
 
 services:
   kong-migrations:
@@ -20,7 +21,7 @@ services:
       KONG_PG_PASSWORD: ${KONG_PG_PASSWORD:-kong}
       KONG_PG_USER: ${KONG_PG_USER:-kong}
     networks:
-      - kong-net
+      - web-net
     restart: on-failure
 
   kong-migrations-up:
@@ -36,12 +37,13 @@ services:
       KONG_PG_PASSWORD: ${KONG_PG_PASSWORD:-kong}
       KONG_PG_USER: ${KONG_PG_USER:-kong}
     networks:
-      - kong-net
+      - web-net
     restart: on-failure
 
   kong:
     image: "${KONG_DOCKER_TAG:-kong:latest}"
     user: "${KONG_USER:-root}"
+    hostname: kong
     depends_on:
       db:
         condition: service_healthy
@@ -58,7 +60,7 @@ services:
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
     networks:
-      - kong-net
+      - web-net
     ports:
       - "8000:8000/tcp"
       - "8001:8001/tcp"
@@ -86,7 +88,7 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - kong-net
+      - web-net
     volumes:
       - kong_data:/var/lib/postgresql/data
   konga:
@@ -94,5 +96,5 @@ services:
     ports:
       - 1337:1337
     networks:
-      - kong-net
+      - web-net
     restart: on-failure
